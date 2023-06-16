@@ -66,15 +66,15 @@ def search_cards(character: list):#寻找卡牌
         #实际切分过程从右往左依次进行
         cut = img[star_x:star_x+1+3, finally_y+39:finally_y+40+5]
         # print(f'{i} 1:{cut[0][0][2]}')
-        if cut[0][0][2] > 200:#截取图片部分区域，并判断其最右上角RGB中B颜色
+        if cut[0][0][2] > 200:#截取图片部分区域，并判断其最右上角RGB中B颜色，这个判定我觉得可能不够严谨，但如果能够准确定位到星级似乎也能用
             s = 1
         # cv.imwrite(f'{i}star1.png',cut)
-        cut = img[star_x:star_x+1+3, finally_y+80:finally_y+80+5]#没找着就往下一点
+        cut = img[star_x:star_x+1+3, finally_y+80:finally_y+80+5]#往左再找找
         # print(f'{i} 2:{cut[0][0][2]}')
         if cut[0][0][2] > 200:
-            s = 2
+            s = 2#通过覆盖保存最高星级
         # cv.imwrite(f'{i}star2.png',cut)
-        cut = img[star_x:star_x+1+3, finally_y+100:finally_y+100+5]#还没找着就再往下
+        cut = img[star_x:star_x+1+3, finally_y+100:finally_y+100+5]#再往左找找看
         # print(f'{i} 3:{cut[0][0][2]}')
         if cut[0][0][2] > 200:
             s = 3
