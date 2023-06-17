@@ -4,40 +4,41 @@ from plugins.Turn import Turn
 import cards.aname as cards_arrow
 
 
-def move(t:Turn,p:int):
+def move(t:Turn,p:int):#功能为更新使用卡牌以后的手牌序列
+    #手牌识别顺序根据代码分析我觉得是从右往左读
     while(True):
-        p -= 1
+        p -= 1#因为是逆序排列，故逆序读取，实际上为顺序向右
         if (p == -1):
             break
-        t.card[p+1] = t.card[p]
+        t.card[p+1] = t.card[p]#循环后将使用的手牌左侧卡依次向右移动一位
         t.data[p+1] = t.data[p]
     # print(t.card[0][0])
-    t.data[0] = 0
+    t.data[0] = 0#将原七号位卡牌设为空
     t.card[0] = ('无卡牌',0)
     pass
 
 # 与前一个合成
-def upgrade(t:Turn,p:int):
+def upgrade(t:Turn,p:int):#使用手牌过程中，如果发现二夹一的情况，将手牌序列再右移一位，同时将手牌升星
     if is_same(t,p,p-1):
         move(t,p-1)
         t.data[p] += 3
         t.card[p] = (t.card[p][0],t.card[p][1]+1)
     pass
-def is_same(t:Turn,a:int,b:int):
-    if t.card[a][0] == t.card[b][0] and t.card[a][1] == t.card[b][1] and t.card[a][0] != '无卡牌':
+def is_same(t:Turn,a:int,b:int):#传入参数为手牌序列，待检测位置1和2
+    if t.card[a][0] == t.card[b][0] and t.card[a][1] == t.card[b][1] and t.card[a][0] != '无卡牌':#如果卡牌名称和星级相同
         return True
     return False
 
 def use(t:Turn,id:int):
-    click = id
-    wait = 0.8
-    move(t,id)
+    click = id#理论上来讲这好像是一个点击操作，但实际上似乎只是一个赋值（？）
+    wait = 0.8#每次操作等待时间
+    move(t,id)#调整手牌序列
     hec = 0
-    if id < 6:
-        if is_same(t,id,id+1):
-            upgrade(t,id+1)
-            wait += 1
-            id = id+1
+    if id < 6:#如果不是末尾卡（七号位）
+        if is_same(t,id,id+1):#使用手牌后可能出现自然合成
+            upgrade(t,id+1)#发生自然合成并调整相关信息
+            wait += 1#多等待合成时间
+            id = id+1#暂时没有太理解这一步
             hec += 1
     if id < 6:
         if is_same(t,id,id+1):
