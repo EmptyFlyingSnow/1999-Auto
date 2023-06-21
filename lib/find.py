@@ -105,6 +105,7 @@ def search_cards(character: list):#寻找卡牌
                 sim_val = best
                 # break
         cards.append((card_reflect[f'{characters[target]}'], star[i]))#将其加入手牌组
+        #此处我想改成[卡牌名称，星级，卡牌倍率，对单对群，角色面板，卡牌类型，]不会影响到对cards列表部分的使用，也方便后续扩展
     # print(cards)
     return cards
 
